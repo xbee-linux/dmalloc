@@ -1,0 +1,24 @@
+schema-version: 1.0
+
+type: builder
+
+
+const:
+  srcDir: /usr/src
+  exportDir: /opt/dmalloc
+
+
+provision:
+  - url:
+      from: https://github.com/j256/dmalloc/archive/refs/tags/{% version %}.tar.gz
+      todir: "{% srcDir %}"
+
+build:
+  - shell:
+      cmds:
+        - ./configure --prefix={% exportDir %}/usr
+        - make
+        - make install
+      directory: "{% srcDir %}/dmalloc-{% version %}"
+  - export: "{% exportDir %}"
+
